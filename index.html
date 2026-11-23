@@ -590,6 +590,11 @@ footer .logo{align-items:flex-start}
     document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     try { localStorage.setItem('irineu-lang', lang); } catch(e){}
+    // Keep the address bar in sync so a ?lang= link can't override the visitor's choice on reload
+    try {
+      var u = new URL(location.href);
+      if (u.searchParams.has('lang')) { u.searchParams.set('lang', lang); history.replaceState(null, '', u); }
+    } catch(e){}
   };
 
   var start = 'pt';
